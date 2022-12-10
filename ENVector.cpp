@@ -6,16 +6,38 @@
 // Constructors and Big 4
 template<class T>
 ENVector <T>::ENVector (int x)
-{}
+{
+    cap = x;
+    data = new T[cap];
+    stored=0;
+}
 template<class T>
 ENVector <T>::ENVector(T* ptr, int  n )
-{}
+{
+    stored=n;
+    cap=n*2;
+    data=new T[cap];
+    for(int i=0;i<cap;i++)
+    {
+        data[i]=ptr[i];
+    }
+}
 template<class T>
 ENVector <T>::ENVector(const ENVector& v)
-{}
+{
+    cap=v.cap;
+    data=new T[cap];
+    stored=v.stored;
+    for(int i=0;i<stored;i++)
+    {
+        data[i]=v.data[i];
+    }
+}
 template<class T>
 ENVector <T>::~ENVector()
-{}
+{
+  delete[] data;
+}
 template<class T>
 ENVector<T>& ENVector<T> ::operator=(const ENVector<T>& v)
 {}
