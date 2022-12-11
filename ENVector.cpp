@@ -40,16 +40,52 @@ ENVector <T>::~ENVector()
 }
 template<class T>
 ENVector<T>& ENVector<T> ::operator=(const ENVector<T>& v)
-{}
+{
+    if(this != &v)
+    {
+        delete[] data;
+        cap = v.cap;
+        stored=v.stored;
+        data = new T[cap];
+        for(int i = 0; i < cap; i++)
+        {
+            data[i] = v.data[i];
+        }
+    }
+    return *this;
+}
 template<class T>
 ENVector<T>&::ENVector<T>:: operator=(const ENVector&& v)
-{}
+{
+    if(this != &v)
+    {
+        delete[] data;
+        cap = v.cap;
+        stored=v.stored;
+        data = new T[cap];
+        for(int i = 0; i < cap; i++)
+        {
+            data[i] = v.data[i];
+        }
+    }
+    v= nullptr;
+    return *this;
+}
 
 
 // Access operations
 template<class T>
 T& ENVector<T>::operator[](int index)
-{}
+{
+    if(index <0 || index >=stored)
+    {
+        cout<<"Invalid index"<<endl;
+        exit(1);
+
+    }
+    else
+        return data[index];
+}
 
 // Modifying operations
 template<class T>
