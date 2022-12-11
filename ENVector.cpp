@@ -15,7 +15,7 @@ template<class T>
 ENVector <T>::ENVector(T* ptr, int  n )
 {
     stored=n;
-    cap=n*2;
+    cap=n;
     data=new T[cap];
     for(int i=0;i<cap;i++)
     {
