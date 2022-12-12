@@ -89,11 +89,40 @@ T& ENVector<T>::operator[](int index)
 
 // Modifying operations
 template<class T>
-int ENVector<T>::push_back(T item)
-{}
+void ENVector<T>::push_back(T item)
+{
+    if(stored>=cap)
+    {
+        T* newvec=new T[cap*2];
+        for(int i=0;i<cap;i++)
+        {
+            newvec[i]=data[i];
+        }
+        cap*=2;
+        swap(data,newvec);
+        delete[] newvec;
+        data[stored++]=item;
+    }
+    else if(stored<cap)
+        data[stored++]=item;
+        
+}
 template<class T>
 T ENVector<T>::pop_back()
-{}
+{
+    if(stored==0)
+    {
+        cout<<"vector is empty";
+        exit(1);
+        
+    }
+    else
+    {
+        T element=data[--stored];
+        data-=data[stored-1];
+        return element;
+    }
+}
 template<class T>
 void ENVector<T>::erase(iterator)
 {}
@@ -102,7 +131,11 @@ void ENVector<T>::erase(iterator1, iterator2)
 {}
 template<class T>
 void ENVector<T>::clear()
-{}
+{
+    stored = 0;
+    delete [] data;
+    cout<<"DONE\n";
+}
 template<class T>
 void ENVector<T>::insert(iterator, T)
 {}
@@ -118,10 +151,41 @@ iterator ENVector<T>::end()
 // Comparison operations
 template<class T>
 bool ENVector<T>::operator==(const ENVector<T>& v)
-{}
+{
+    if(stored==v.stored)
+    {
+        for(int i=0;i<stored;i++)
+        {
+            if(data[i]!=(v.data[i]))
+                return false;
+        }
+    }
+    else
+        return false;
+    return true;
+}
 template<class T>
 bool ENVector<T>::operator< (const ENVector<T>& v)
-{}
+{
+    if(stored < v.stored)
+    {
+        return true;
+    }
+    else if(stored == v.stored)
+    {
+        for(int i=0;i<stored;i++)
+        {
+            if(data[i]<v.data[i])
+                continue;
+            else if(data[i]>v.data[i] || data[i]==v.data[i] )
+                return false;
+        }
+        return true;
+
+    }
+    else if (stored > v.stored)
+        return false;
+}
 
 // Capacity operations
 template<class T>
