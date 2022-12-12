@@ -25,6 +25,7 @@ private:
     int stored;
     
 public:
+    typedef T* iterator;
 // Constructors and Big 4
     ENVector (int);			// Initialize by specific capacity
 // No content is added, size = 0
@@ -40,7 +41,7 @@ public:
     // Throw an exception if out of range
 
 // Modifying operations
-    int push_back(T); // Add item to end of vec & return # of items
+    void push_back(T); // Add item to end of vec & return # of items
     // Increase capacity of needed
     T pop_back();     // Remove and return last element in vec
     void erase(iterator);        // Remove item at iterator
