@@ -1,0 +1,399 @@
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <iostream>
+#include <vector>
+#include <ctype.h>
+#include <stdlib.h>
+
+using namespace std;
+
+template<class T>
+class ENVector
+{
+private:
+    T* data;
+    int cap;
+    int stored;
+
+public:
+    typedef T* iterator;
+// Constructors and Big 4
+    ENVector (int x=2)
+    {
+        cap = x;
+        data = new T[cap];
+        stored=0;
+    }
+    ENVector (T* ptr, int  n )
+    {
+        stored=n;
+        cap=n;
+        data=new T[cap];
+        for(int i=0;i<cap;i++)
+        {
+            data[i]=ptr[i];
+        }
+    }
+    ENVector (const ENVector& v)
+    {
+        cap=v.cap;
+        data=new T[cap];
+        stored=v.stored;
+        for(int i=0;i<stored;i++)
+        {
+            data[i]=v.data[i];
+        }
+    }
+    ~ENVector()
+    {
+        delete[] data;
+    }
+    ENVector &operator=(const ENVector& v)
+    {
+        if(this != &v)
+        {
+            delete[] data;
+            cap = v.cap;
+            stored=v.stored;
+            data = new T[cap];
+            for(int i = 0; i < cap; i++)
+            {
+                data[i] = v.data[i];
+            }
+        }
+        return *this;
+    }
+    ENVector &operator=(ENVector&& v)
+    {
+        if(this != &v)
+        {
+            delete[] data;
+            cap = v.cap;
+            stored=v.stored;
+            data = new T[cap];
+            for(int i = 0; i < cap; i++)
+            {
+                data[i] = v.data[i];
+            }
+            v.data=nullptr;
+        }
+
+        return *this;
+    }
+
+// Access operations
+    T& operator[](int index)
+    {
+        if(index <0 || index >=stored)
+        {
+            cout<<"Invalid index"<<endl;
+            exit(1);
+
+        }
+        else
+            return data[index];
+    }
+
+// Modifying operations
+    void push_back(T item)
+    {
+        if(stored>=cap)
+        {
+            T* newvec=new T[cap*2];
+            for(int i=0;i<cap;i++)
+            {
+                newvec[i]=data[i];
+            }
+            cap*=2;
+            swap(data,newvec);
+            delete[] newvec;
+            data[stored++]=item;
+        }
+        else if(stored<cap)
+            data[stored++]=item;
+    }
+    T pop_back()
+    {
+        if(stored==0)
+        {
+            cout<<"vector is empty";
+            exit(1);
+
+        }
+        else
+        {
+            return data[--stored];
+        }
+    }
+    void erase(iterator index)
+    {
+        try {
+            if (index > data + stored || index < data)
+                throw 0;
+            int counter = 0;
+            T *New = new T[cap];
+            for (int i = 0; i < stored; i++) {
+                if (index == data + i)
+                    continue;
+                New[counter] = data[i];
+                counter++;
+            }
+            delete[] data;
+            data = new T[cap];
+            stored -= 1;
+            data = New;
+
+        }
+        catch (int s)
+        {
+            cout<<" invalid position"<<endl;
+        }
+
+    }
+
+    void erase(iterator iterator1,iterator iterator2)
+    {
+        T *New = new T[cap];
+        int counter = 0;
+        try {
+            if(iterator1 > data+stored || iterator1 < data|| iterator2 > data+stored || iterator2 < data)
+                throw 0;
+            for (int i = 0; i < stored; i++)
+            {
+                if (iterator1 < data + i && data + i < iterator2) {
+                    continue;
+
+                } else {
+                    New[counter] = data[i];
+                    counter++;
+                }
+
+            }
+            delete[] data;
+            data=new T[cap];
+            stored=counter;
+            data=New;
+
+        }
+        catch(int x)
+        {
+            cout<<"outside range"<<endl;
+        }
+    }
+    void clear()
+    {
+        stored = 0;
+        delete [] data;
+        cout<<"DONE\n";
+    }
+    void insert(iterator  index, T item )
+    {
+        T *New = new T[cap];
+        int counter = 0;
+        try
+        {
+            if(index > data+stored || index < data)
+                throw 0;
+            for( int i=0;i<stored;i++)
+            {
+                if( index == data+i)
+                {
+                    New[counter]=item;
+                    counter++;
+
+                }
+                New[counter]=data[i];
+                counter++;
+            }
+            delete[] data;
+            data=new T[cap];
+            stored++;
+            data=New;
+
+        }
+        catch (int x)
+        {
+            cout<<"outside range"<<endl;
+        }
+
+    }
+
+
+// Iterators
+    iterator begin()
+    {
+        return data;
+    }
+    iterator end()
+    {
+        return data+(stored-1);
+    }
+
+// Comparison operations
+    bool operator==( ENVector<T>& v)
+    {
+        if(stored==v.stored)
+        {
+            for(int i=0;i<stored;i++)
+            {
+                if(data[i]!=(v.data[i]))
+                    return false;
+            }
+        }
+        else
+            return false;
+        return true;
+    }
+    bool operator<( ENVector<T>& v)
+    {
+        if(stored < v.stored)
+        {
+            return true;
+        }
+        else if(stored == v.stored)
+        {
+            for(int i=0;i<stored;i++)
+            {
+                if(data[i]<v.data[i])
+                    continue;
+                else if(data[i]>v.data[i] || data[i]==v.data[i] )
+                    return false;
+            }
+            return true;
+
+        }
+        return false;
+    }
+
+// Capacity operations
+    int size() const
+    {
+        return stored;
+    }
+    int capacity() const
+    {
+        return cap;
+    }
+    int resize()
+    {
+        int num;
+        cin>>num;
+        cap*=num;
+        cout<<"new capacity is : "<<cap<<endl;
+    }
+    bool empty()
+    {
+        if(stored==0)
+            return true;
+        return false;
+    }
+
+// Friends
+    friend ostream& operator << (ostream& out, ENVector<T> v)
+    {
+        for(int i=0;i<v.size();i++)
+        {
+            out<<v[i]<<endl;
+        }
+        return out;
+    }
+
+};
+
+int main()
+{
+    ENVector <string> vec(7);
+    vec.push_back( "Hello");
+    vec.push_back( "Esraa");
+    vec.push_back( "Nervana");
+    vec.push_back( "Bananaaa");
+    vec.push_back( "Salam ");
+    vec.push_back( "Hola");
+    vec[0] = "Helloo";
+    for(int i = 0; i < vec.size(); i++)
+    {
+        cout << vec[i] << endl;
+    }
+   cout << endl << endl;
+   ENVector <string> vec2(vec);
+   vec2[0] = "Salam 23";
+
+   for(int i = 0; i < vec2.size(); i++){
+       cout << vec2[i] << endl;
+   }
+    if((vec == vec2))
+    {
+        cout <<"equal"<< endl;
+    }
+    else
+    {
+        cout<<"Not equal"<<endl;
+    }
+    if((vec < vec2))
+    {
+        cout <<"second vector is bigger"<< endl;
+    }
+    else
+    {
+        cout<<"first vector is bigger"<<endl;
+    }
+
+
+    string v1[6];
+    v1[0]="esraa";
+    v1[1]="Nervana";
+    v1[2]="Mahmoud";
+    v1[3]="Doctor";
+    v1[4]="Tree";
+    v1[5]="horse";
+    ENVector<string> vec3(v1,6);
+    for(int i = 0; i < vec3.size(); i++){
+        cout << vec3[i] << endl;
+    }
+    cout<<endl;
+    vec3.pop_back();
+
+    for(int i = 0; i < vec3.size(); i++){
+        cout << vec3[i] << endl;
+    }
+    cout<<endl;
+    vec3.erase(vec3.begin()+1,vec3.begin()+4);
+
+
+    for(int i = 0; i < vec3.size(); i++){
+        cout << vec3[i] << endl;
+    }
+    cout<<endl;
+    cout<<vec3.size()<<endl;
+    vec3.erase(vec3.begin()+1);
+
+    for(int i = 0; i < vec3.size(); i++){
+        cout << vec3[i] << endl;
+    }
+    cout<<endl;
+    cout<<*vec3.begin()<<endl;
+    cout<<*vec3.end()<<endl;
+    ENVector<string> :: iterator it = vec3.begin();
+    cout<<*it<<endl;
+    it++;
+    cout<<*it<<endl;
+    ENVector<string> :: iterator it2 = it+1;
+
+    cout<< *it2<<endl;
+
+    vec3.insert(vec3.begin()+1,"EEsrraa");
+
+    for(int i = 0; i < vec3.size(); i++){
+        cout << vec3[i] << endl;
+    }
+    cout<<vec3<<endl;
+    vec3.clear();
+
+    for(int i = 0; i < vec3.size(); i++){
+        cout << vec3[i] << endl;
+    }
+
+
+
+}
