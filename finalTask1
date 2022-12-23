@@ -310,14 +310,17 @@ int main()
     {
         cout << v[i] << endl;
     }
-   cout << endl << endl;
-   ENVector <string> vec2(v);
-   vec2[0] = "Salammmmmm";
+    cout << "-------------------------------------------------" << endl;
 
-   for(int i = 0; i < vec2.size(); i++){
-       cout << vec2[i] << endl;
-   }
-   cout<<endl;
+
+    ENVector <string> vec2(v);
+    vec2[0] = "Salammmmmm";
+    for(int i = 0; i < vec2.size(); i++){
+        cout << vec2[i] << endl;
+    }
+    cout << "-------------------------------------------------" << endl;
+
+
     if((v == vec2))
     {
         cout <<"equal\n";
@@ -326,6 +329,9 @@ int main()
     {
         cout<<"Not equal\n";
     }
+    cout << "-------------------------------------------------" << endl;
+
+
     if((v < vec2))
     {
         cout <<"second vector is bigger"<< endl;
@@ -334,7 +340,8 @@ int main()
     {
         cout<<"first vector is bigger"<<endl;
     }
-    cout<<endl;
+    cout << "-------------------------------------------------" << endl;
+
 
     string v1[5];
     v1[0]="esraa";
@@ -343,53 +350,67 @@ int main()
     v1[3]="Doctor";
     v1[4]="Tree";
 
-   ENVector<string> vec3(v1,5);
+    ENVector<string> vec3(v1,5);
     for(int i = 0; i < vec3.size(); i++){
         cout << vec3[i] << endl;
     }
-    cout<<endl;
-   vec3.pop_back();
-   cout<<"last index:---->\n";
+    cout << "-------------------------------------------------" << endl;
+
+
+    vec3.pop_back();
+    cout<<"last index:---->\n";
     for(int i = 0; i < vec3.size(); i++){
         cout << vec3[i] << endl;
     }
-    cout<<endl;
+    cout << "-------------------------------------------------" << endl;
+
     cout<<"outRange:---->\n";
     vec3.erase(vec3.begin()+1,vec3.begin()+4);
-
     vec3.erase(vec3.begin()+1,vec3.begin()+3);
-
     for(int i = 0; i < vec3.size(); i++){
         cout << vec3[i] << endl;
     }
-    cout<<endl;
+    cout << "-------------------------------------------------" << endl;
     cout<<"size:---->\n";
     cout<<vec3.size()<<endl;
+    cout << "-------------------------------------------------" << endl;
+
     cout<<"erase index: ---->\n";
     vec3.erase(vec3.begin()+1);
-
     for(int i = 0; i < vec3.size(); i++){
         cout << vec3[i] << endl;
     }
-    cout<<endl;
+    cout << "-------------------------------------------------" << endl;
+
     cout<<"first :-->\n";
     cout<<*vec3.begin()<<endl;
+    cout << "-------------------------------------------------" << endl;
+
     cout<<"last :---->\n";
     cout<<*vec3.end()<<endl;
+    cout << "-------------------------------------------------" << endl;
+
     cout<<"first again :->\n";
     ENVector<string> :: iterator it = vec3.begin();
     cout<<*it<<endl;
+    cout << "-------------------------------------------------" << endl;
 
     ENVector<string> :: iterator it1=it+1 ;
     cout<<"second :--->\n";
     cout<< *it1<<endl;
+    cout << "-------------------------------------------------" << endl;
 
     vec3.insert(vec3.begin()+1,"EEsrraa");
     cout<<"after insert\n";
-    cout<<vec3<<endl;
+    cout<<vec3;
+    cout << "-------------------------------------------------" << endl;
+
+    cout << "after clear\n";
     vec3.clear();
     for(int i=0;i<vec3.size();i++)
         cout<<vec3[i]<<endl;
+    cout << "-------------------------------------------------" << endl;
+
     cout<<vec3.empty();
 
 }
