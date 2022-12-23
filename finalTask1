@@ -1,10 +1,6 @@
 #include <iostream>
 #include <string>
-#include <cstring>
-#include <iostream>
 #include <vector>
-#include <ctype.h>
-#include <stdlib.h>
 
 using namespace std;
 
@@ -157,7 +153,7 @@ public:
         T *New = new T[cap];
         int counter = 0;
         try {
-            if(iterator1 > data+stored || iterator1 < data|| iterator2 > data+stored || iterator2 < data)
+            if(iterator1 > data+(stored-1) || iterator1 < data|| iterator2 > data+(stored-1) || iterator2 < data)
                 throw 0;
             for (int i = 0; i < stored; i++)
             {
@@ -184,7 +180,7 @@ public:
     void clear()
     {
         stored = 0;
-        delete [] data;
+        data= nullptr;
         cout<<"DONE\n";
     }
     void insert(iterator  index, T item )
@@ -303,34 +299,34 @@ public:
 
 int main()
 {
-    ENVector <string> vec(7);
-    vec.push_back( "Hello");
-    vec.push_back( "Esraa");
-    vec.push_back( "Nervana");
-    vec.push_back( "Bananaaa");
-    vec.push_back( "Salam ");
-    vec.push_back( "Hola");
-    vec[0] = "Helloo";
-    for(int i = 0; i < vec.size(); i++)
+    ENVector <string> v(6);
+    v.push_back( "Esraa");
+    v.push_back( "Nervana");
+    v.push_back( "Bananaaa");
+    v.push_back( "Salam ");
+    v.push_back( "Hel");
+    v[0] = "Marhbaaaa";
+    for(int i = 0; i < v.size(); i++)
     {
-        cout << vec[i] << endl;
+        cout << v[i] << endl;
     }
    cout << endl << endl;
-   ENVector <string> vec2(vec);
-   vec2[0] = "Salam 23";
+   ENVector <string> vec2(v);
+   vec2[0] = "Salammmmmm";
 
    for(int i = 0; i < vec2.size(); i++){
        cout << vec2[i] << endl;
    }
-    if((vec == vec2))
+   cout<<endl;
+    if((v == vec2))
     {
-        cout <<"equal"<< endl;
+        cout <<"equal\n";
     }
     else
     {
-        cout<<"Not equal"<<endl;
+        cout<<"Not equal\n";
     }
-    if((vec < vec2))
+    if((v < vec2))
     {
         cout <<"second vector is bigger"<< endl;
     }
@@ -338,62 +334,62 @@ int main()
     {
         cout<<"first vector is bigger"<<endl;
     }
+    cout<<endl;
 
-
-    string v1[6];
+    string v1[5];
     v1[0]="esraa";
     v1[1]="Nervana";
     v1[2]="Mahmoud";
     v1[3]="Doctor";
     v1[4]="Tree";
-    v1[5]="horse";
-    ENVector<string> vec3(v1,6);
-    for(int i = 0; i < vec3.size(); i++){
-        cout << vec3[i] << endl;
-    }
-    cout<<endl;
-    vec3.pop_back();
 
+   ENVector<string> vec3(v1,5);
     for(int i = 0; i < vec3.size(); i++){
         cout << vec3[i] << endl;
     }
     cout<<endl;
+   vec3.pop_back();
+   cout<<"last index:---->\n";
+    for(int i = 0; i < vec3.size(); i++){
+        cout << vec3[i] << endl;
+    }
+    cout<<endl;
+    cout<<"outRange:---->\n";
     vec3.erase(vec3.begin()+1,vec3.begin()+4);
 
+    vec3.erase(vec3.begin()+1,vec3.begin()+3);
 
     for(int i = 0; i < vec3.size(); i++){
         cout << vec3[i] << endl;
     }
     cout<<endl;
+    cout<<"size:---->\n";
     cout<<vec3.size()<<endl;
+    cout<<"erase index: ---->\n";
     vec3.erase(vec3.begin()+1);
 
     for(int i = 0; i < vec3.size(); i++){
         cout << vec3[i] << endl;
     }
     cout<<endl;
+    cout<<"first :-->\n";
     cout<<*vec3.begin()<<endl;
+    cout<<"last :---->\n";
     cout<<*vec3.end()<<endl;
+    cout<<"first again :->\n";
     ENVector<string> :: iterator it = vec3.begin();
     cout<<*it<<endl;
-    it++;
-    cout<<*it<<endl;
-    ENVector<string> :: iterator it2 = it+1;
 
-    cout<< *it2<<endl;
+    ENVector<string> :: iterator it1=it+1 ;
+    cout<<"second :--->\n";
+    cout<< *it1<<endl;
 
     vec3.insert(vec3.begin()+1,"EEsrraa");
-
-    for(int i = 0; i < vec3.size(); i++){
-        cout << vec3[i] << endl;
-    }
+    cout<<"after insert\n";
     cout<<vec3<<endl;
     vec3.clear();
-
-    for(int i = 0; i < vec3.size(); i++){
-        cout << vec3[i] << endl;
-    }
-
-
+    for(int i=0;i<vec3.size();i++)
+        cout<<vec3[i]<<endl;
+    cout<<vec3.empty();
 
 }
